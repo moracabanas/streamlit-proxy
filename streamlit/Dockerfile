@@ -4,11 +4,17 @@ RUN apt-get install gcc git -y
 RUN pip install --upgrade pip
 RUN pip install --upgrade buildtools
 
-ARG GITHUB_REPO=https://github.com/streamlit/demo-face-gan/
-
 RUN rm -r /app/*
 
-RUN git clone $GITHUB_REPO .
-RUN pip install -r ./requirements.txt
+ARG GITHUB_REPO
 
+RUN ls /app/
+RUN if [ "$GITHUB_REPO" = "" ]; \
+    then echo "empty Github repo ARG"; \
+    else git clone $GITHUB_REPO . ; \
+    fi
 
+RUN if test -f "requirements.txt" ; \
+    then echo "requirements exists, installing dependencies" \
+    && pip install -r ./requirements.txt ; \
+    fi 
