@@ -6,7 +6,7 @@ RUN pip install --upgrade buildtools
 
 RUN rm -r /app/*
 
-ARG GITHUB_REPO
+ENV GITHUB_REPO=""
 
 RUN ls /app/
 RUN if [ "$GITHUB_REPO" = "" ]; \
