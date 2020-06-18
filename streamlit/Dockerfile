@@ -1,20 +1,29 @@
-FROM ideonate/streamlit-single
-RUN apt-get update
-RUN apt-get install gcc git -y
-RUN pip install --upgrade pip
-RUN pip install --upgrade buildtools
 
-RUN rm -r /app/*
+FROM python:3.7.2-slim
+LABEL maintainer="moracabanas <moracabanas@live.com>"
 
+COPY docker-entrypoint.sh /srv/docker-entrypoint.sh
+RUN ["chmod", "+x", "/srv/docker-entrypoint.sh"]
+
+# backwards compat
+#RUN ln -s /srv/docker-entrypoint.sh
+
+ENV EXPOSED_PORT=8888
 ENV GITHUB_REPO=""
 
-RUN ls /app/
-RUN if [ "$GITHUB_REPO" = "" ]; \
-    then echo "empty Github repo ARG"; \
-    else git clone $GITHUB_REPO . ; \
-    fi
 
-RUN if test -f "requirements.txt" ; \
-    then echo "requirements exists, installing dependencies" \
-    && pip install -r ./requirements.txt ; \
-    fi 
+EXPOSE ${EXPOSED_PORT}
+
+WORKDIR /app
+
+RUN apt-get update
+RUN apt-get install gcc git -y
+RUN pip install --upgrade pip buildtools
+RUN pip install streamlit
+
+#This RUN is a test for some openCV dependencies
+RUN apt-get install libglib2.0-0 libsm6 libxext6 libxrender-dev -y
+
+ENTRYPOINT [ "/srv/docker-entrypoint.sh"]
+
+CMD []
