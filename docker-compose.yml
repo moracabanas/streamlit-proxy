@@ -35,9 +35,9 @@ services:
       - app:/app
     environment:
       - VIRTUAL_PORT=8888
-      - VIRTUAL_HOST=<your-domain>
-      - LETSENCRYPT_HOST=<your-domain>
-      - LETSENCRYPT_EMAIL=<your-mail>
+      - VIRTUAL_HOST=streamlit-cloud.duckdns.org,www.streamlit-cloud.duckdns.org
+      - LETSENCRYPT_HOST=streamlit-cloud.duckdns.org,www.streamlit-cloud.duckdns.org
+      - LETSENCRYPT_EMAIL=moracabanas@live.com
       - GITHUB_REPO=https://github.com/streamlit/demo-face-gan.git
 volumes:
   certs:
