@@ -27,19 +27,18 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
 
   streamlit:
-    build:
-      context: ./streamlit
-      args: 
-        - GITHUB_REPO=https://github.com/streamlit/demo-face-gan.git
+    image: 20061541/streamlit-proxy
     restart: always
     expose: 
       - "8888"
     volumes:
       - app:/app
     environment:
-      - VIRTUAL_HOST=www.streamlit-cloud.duckdns.org,streamlit-cloud.duckdns.org
-      - LETSENCRYPT_HOST=www.streamlit-cloud.duckdns.org/web,streamlit-cloud.duckdns.org
-      - LETSENCRYPT_EMAIL=moracabanas@live.com
+      - VIRTUAL_PORT=8888
+      - VIRTUAL_HOST=<your-domain>
+      - LETSENCRYPT_HOST=<your-domain>
+      - LETSENCRYPT_EMAIL=<your-mail>
+      - GITHUB_REPO=https://github.com/streamlit/demo-face-gan.git
 volumes:
   certs:
   vhostd:
